@@ -44,22 +44,20 @@ export class Main extends React.Component<{}, MainState> {
         };
     }
 
-    UpdateRow = (e: any, pos: number, index: number) => {
+    UpdateRow = (e: any, pos: string, index: number) => {
 
-        let oldEntries = this.state.Entries;
-        console.log(oldEntries);
-        let row = oldEntries[index];
-        row[pos] = e.target.value;
+        const oldRow = this.state.Entries[index];
         
-        oldEntries[index] = row;
-        
-        // This is an anti-pattern!
-        // State should be immutable, and we should use 
-        // the immutability helpers instead
+        const newRow = oldRow;
+        newRow[pos] = e.target.value;
+
+        const oldEntries = this.state.Entries;
+        oldEntries[index] = newRow;
+
+        // This isn't too bad but we are mutating state a litte, and could use immutability helpers
         this.setState({
             Entries: oldEntries
         });
-
     }
 
     ChangeMode = () => {
@@ -91,12 +89,12 @@ const ViewEntry = (props: Row) =>
 
 interface EditEntryProps {
     Row: Row;
-    Update(e: any, pos: number, index: number): void;
+    Update(e: any, pos: string, index: number): void;
 }
 
 const EditEntry = (props: EditEntryProps) =>
     <div className="view">
-        <input onChange={(e) => props.Update(e, 0, props.Row.Index)} value={props.Row.Col1} />
-        <input onChange={(e) => props.Update(e, 1, props.Row.Index)} value={props.Row.Col2} />
-        <input onChange={(e) => props.Update(e, 2, props.Row.Index)} value={props.Row.Col3} />
+        <input onChange={(e) => props.Update(e, 'Col1', props.Row.Index)} value={props.Row.Col1} />
+        <input onChange={(e) => props.Update(e, 'Col2', props.Row.Index)} value={props.Row.Col2} />
+        <input onChange={(e) => props.Update(e, 'Col3', props.Row.Index)} value={props.Row.Col3} />
     </div>;
