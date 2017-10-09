@@ -1,0 +1,16 @@
+.edit-entry {
+    display: flex;
+    justify-content: center;
+}
+
+.edit-entry * {
+    margin: 20px;
+}
+
+.view-entry {
+    display: flex;
+    justify-content: center;
+}
+.view-entry * {
+    margin: 20px;
+}

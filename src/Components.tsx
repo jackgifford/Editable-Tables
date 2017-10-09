@@ -21,25 +21,25 @@ export class Main extends React.Component<{}, MainState> {
             Entries: [
                 {
                     Cols: [
-                        'Entry1',
-                        'Entry2',
-                        'Entry3'
+                        'Entry 1',
+                        'Entry 2',
+                        'Entry 3'
                     ],
                     Index: 0
                 },
                 {
                     Cols: [
-                        'Entry4',
-                        'Entry5',
-                        'Entry6'
+                        'Entry 4',
+                        'Entry 5',
+                        'Entry 6'
                     ],
                     Index: 1
                 },
                 {
                     Cols: [
-                        'Entry7',
-                        'Entry8',
-                        'Entry9'
+                        'Entry 7',
+                        'Entry 8',
+                        'Entry 9'
                     ],
                     Index: 2
                 }
@@ -86,7 +86,7 @@ export class Main extends React.Component<{}, MainState> {
 }
 
 const ViewEntry = (props: Row) =>
-    <div className="Entry">
+    <div className="view-entry">
         {props.Cols.map(x => <p>{x}</p>)}
     </div>;
 
@@ -97,7 +97,7 @@ interface EditEntryProps {
 }
 
 const EditEntry = (props: EditEntryProps) =>
-    <div className="view">
+    <div className="edit-entry">
         {props.Entries.map(x => 
             <input onChange={(e) => props.Update(e, props.Entries.indexOf(x), props.Row.Index)} value={x} />
         )}
