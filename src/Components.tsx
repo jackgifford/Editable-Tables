@@ -1,16 +1,14 @@
 import * as React from 'react';
+import './Components.css';
 
 interface Row {
-    Col1: string;
-    Col2: string;
-    Col3: string;
+    Cols: string[];
     Index: number;
 }
 
 interface MainState {
     Entries: Row[];
     EditMode: boolean;
-
 }
 
 export class Main extends React.Component<{}, MainState> {
@@ -22,34 +20,41 @@ export class Main extends React.Component<{}, MainState> {
         this.state = {
             Entries: [
                 {
-                    Col1: "Entry1",
-                    Col2: "Entry2",
-                    Col3: "Entry3",
+                    Cols: [
+                        'Entry1',
+                        'Entry2',
+                        'Entry3'
+                    ],
                     Index: 0
                 },
                 {
-                    Col1: "Entry4",
-                    Col2: "Entry5",
-                    Col3: "Entry6",
+                    Cols: [
+                        'Entry4',
+                        'Entry5',
+                        'Entry6'
+                    ],
                     Index: 1
                 },
                 {
-                    Col1: "Entry7",
-                    Col2: "Entry8",
-                    Col3: "Entry9",
+                    Cols: [
+                        'Entry7',
+                        'Entry8',
+                        'Entry9'
+                    ],
                     Index: 2
                 }
             ],
+
             EditMode: false
         };
     }
 
-    UpdateRow = (e: any, pos: string, index: number) => {
+    UpdateRow = (e: any, pos: number, index: number) => {
 
         const oldRow = this.state.Entries[index];
         
         const newRow = oldRow;
-        newRow[pos] = e.target.value;
+        newRow.Cols[pos] = e.target.value;
 
         const oldEntries = this.state.Entries;
         oldEntries[index] = newRow;
@@ -68,8 +73,8 @@ export class Main extends React.Component<{}, MainState> {
 
     render() {
         const body = this.state.EditMode ?
-            this.state.Entries.map(x => <EditEntry Row={x} Update={this.UpdateRow} />) :
-            this.state.Entries.map(x => <ViewEntry Index={x.Index} Col1={x.Col1} Col2={x.Col2} Col3={x.Col3} />);
+            this.state.Entries.map(x => <EditEntry Entries={x.Cols} Row={x} Update={this.UpdateRow} />) :
+            this.state.Entries.map(x => <ViewEntry Index={x.Index} Cols={x.Cols} /> );
 
         return (
             <div className="main">
@@ -82,19 +87,18 @@ export class Main extends React.Component<{}, MainState> {
 
 const ViewEntry = (props: Row) =>
     <div className="Entry">
-        <p>{props.Col1}</p>
-        <p>{props.Col2}</p>
-        <p>{props.Col3}</p>
+        {props.Cols.map(x => <p>{x}</p>)}
     </div>;
 
 interface EditEntryProps {
     Row: Row;
-    Update(e: any, pos: string, index: number): void;
+    Entries: string[];
+    Update(e: any, pos: number, index: number): void;
 }
 
 const EditEntry = (props: EditEntryProps) =>
     <div className="view">
-        <input onChange={(e) => props.Update(e, 'Col1', props.Row.Index)} value={props.Row.Col1} />
-        <input onChange={(e) => props.Update(e, 'Col2', props.Row.Index)} value={props.Row.Col2} />
-        <input onChange={(e) => props.Update(e, 'Col3', props.Row.Index)} value={props.Row.Col3} />
+        {props.Entries.map(x => 
+            <input onChange={(e) => props.Update(e, props.Entries.indexOf(x), props.Row.Index)} value={x} />
+        )}
     </div>;
